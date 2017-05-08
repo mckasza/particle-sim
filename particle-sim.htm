@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+    <head>
+        <style>
+            html, body {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+		<script src="simulation.js"></script>
+        <script src="particle.js"></script>
+        <script>
+			var sim_canvas;
+			var ctrl_panel;
+			var ctrl_panel_width = 300;
+			var simulation;
+
+			function init(){
+				sim_canvas = document.getElementById("sim_canvas");
+				
+				ctrl_panel = document.getElementById("ctrl_panel");
+				
+				window.addEventListener("resize", resize);
+				
+				simulation = new Simulation(sim_canvas);
+				
+				resize();
+				
+				simulation.startAnimation();
+			}
+			function resize(){
+				var width = window.innerWidth;
+				var height = window.innerHeight;
+
+				sim_canvas.width = width-ctrl_panel_width-1;
+				sim_canvas.height = height;
+
+				ctrl_panel.style.width = ctrl_panel_width;
+				ctrl_panel.style.height = height;
+				
+				if(simulation) simulation.draw();
+			}
+			function stop(){
+				if(simulation) simulation.stopAnimation();
+			}
+			function start(){
+				if(simulation) simulation.startAnimation();
+			}
+        </script>
+    </head>
+    <body onload="init()">
+        <div style="margin-left: auto; margin-right: auto;">
+            <canvas id="sim_canvas" style="float: left; border-right: 1px gray solid;"></canvas>
+            <div id="ctrl_panel" style="float: left;">
+                <input type="button" value="Start" onclick="start()">
+                <input type="button" value="Stop" onclick="stop()">
+                <input type="button" value="Reset">
+            </div>
+        </div>
+    </body>
+</html>
